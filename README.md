@@ -1,2 +1,2 @@
-# tabs-js
-An example of implementing tabs using javascript
+# Landing page about yoga
+Examples of using javascript
