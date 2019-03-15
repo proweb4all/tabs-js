@@ -1,6 +1,6 @@
 'use strict';
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', () => {
     let tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
@@ -9,18 +9,18 @@ window.addEventListener('DOMContentLoaded', function() {
         for (let i = a; i < tabContent.length; i++) {
             tabContent[i].classList.remove('show');
             tabContent[i].classList.add('hide');
-        };
-    };
+        }
+    }
     hideTabContent(1);
 
     function showTabContent(b) {
         if (tabContent[b].classList.contains('hide')) {
             tabContent[b].classList.remove('hide');
             tabContent[b].classList.add('show');
-        };
-    };
+        }
+    }
 
-    info.addEventListener('click', function(e) {
+    info.addEventListener('click', (e) => {
         let target = e.target;
         if (target && target.classList.contains('info-header-tab')) {
             for (let i = 0; i < tab.length; i++) {
@@ -28,9 +28,9 @@ window.addEventListener('DOMContentLoaded', function() {
                     hideTabContent(0);
                     showTabContent(i);
                     break;
-                };
-            };
-        };
+                }
+            }
+        }
     });
 
     // Timer
@@ -47,7 +47,7 @@ window.addEventListener('DOMContentLoaded', function() {
             'minutes': minutes,
             'seconds': seconds
         };
-    };
+    }
 
     function setClock(id, endtime) {
         let timer = document.getElementById(id),
@@ -57,7 +57,7 @@ window.addEventListener('DOMContentLoaded', function() {
         if (Date.parse(endtime) <= Date.parse(new Date())) {
             hours.textContent = minutes.textContent = seconds.textContent = '00';
             return;
-        };
+        }
         let timeInterval = setInterval(updateClock, 1000);
 
         function updateClock() {
@@ -68,9 +68,9 @@ window.addEventListener('DOMContentLoaded', function() {
             (t.seconds > 9) ? seconds.textContent = t.seconds : seconds.textContent = '0' + t.seconds;
             if (t.total <= 0) {
                 clearInterval(timeInterval);
-            };
-        };
-    };
+            }
+        }
+    }
     setClock('timer', deadline);
 
     // Modal
@@ -79,12 +79,12 @@ window.addEventListener('DOMContentLoaded', function() {
         close = document.querySelector('.popup-close');
 
     more.forEach(function(item){
-        item.addEventListener('click', function(){
+        item.addEventListener('click', function() {
             overlay.style.display = 'block';
             this.classList.add('more-splash');
             document.body.style.overflow = 'hidden';
         });
-        close.addEventListener('click', function(){
+        close.addEventListener('click', () => {
             overlay.style.display = 'none';
             item.classList.remove('more-splash');
             document.body.style.overflow = '';
@@ -100,20 +100,20 @@ window.addEventListener('DOMContentLoaded', function() {
     //     framesCount = 100;
 
     const anc = menu.querySelectorAll('a[href*="#"]');
-    console.log(anc);
+    //console.log(anc);
 
     for (let anchor of anc) {
-        console.log(anchor)
-        anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const blockID = anchor.getAttribute('href');
-        console.log(document.querySelector('' + blockID), document.querySelector('' + blockID).scrollTop);
-        document.querySelector('' + blockID).scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
+        // console.log(anchor)
+        anchor.addEventListener('click', (e) => {
+            e.preventDefault();
+            const blockID = anchor.getAttribute('href');
+            //console.log(document.querySelector('' + blockID), document.querySelector('' + blockID).scrollTop);
+            document.querySelector('' + blockID).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
         });
-      });
-    };
+    }
 
     // let linkNav = menu.querySelectorAll('[href^="#"]'), //выбираем все ссылки к якорю на странице
     // V = .3;  // скорость, может иметь дробное значение через точку (чем меньше значение - тем больше скорость)
