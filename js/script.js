@@ -1,7 +1,7 @@
 'use strict';
 
 window.addEventListener('DOMContentLoaded', () => {
-    let tab = document.querySelectorAll('.info-header-tab'),
+    const tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
 
@@ -21,7 +21,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     info.addEventListener('click', (e) => {
-        let target = e.target;
+        const target = e.target;
         if (target && target.classList.contains('info-header-tab')) {
             for (let i = 0; i < tab.length; i++) {
                 if (target == tab[i]) {
@@ -34,10 +34,10 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // Timer
-    let deadline = '2019-03-18';
+    const deadline = '2019-03-18';
 
     function getTimeRemaining(endtime) {
-        let t = Date.parse(endtime) - Date.parse(new Date()),
+        const t = Date.parse(endtime) - Date.parse(new Date()),
             seconds = Math.floor((t/1000) % 60),
             minutes = Math.floor((t/1000/60) % 60),
             hours = Math.floor((t/(1000*60*60)));
@@ -50,7 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     function setClock(id, endtime) {
-        let timer = document.getElementById(id),
+        const timer = document.getElementById(id),
             hours = timer.querySelector('.hours'),
             minutes = timer.querySelector('.minutes'),
             seconds = timer.querySelector('.seconds');
@@ -58,10 +58,10 @@ window.addEventListener('DOMContentLoaded', () => {
             hours.textContent = minutes.textContent = seconds.textContent = '00';
             return;
         }
-        let timeInterval = setInterval(updateClock, 1000);
+        const timeInterval = setInterval(updateClock, 1000);
 
         function updateClock() {
-            let t = getTimeRemaining(endtime);
+            const t = getTimeRemaining(endtime);
 
             (t.hours > 9) ? hours.textContent = t.hours : hours.textContent = '0' + t.hours;
             (t.minutes > 9) ? minutes.textContent = t.minutes : minutes.textContent = '0' + t.minutes;
@@ -74,7 +74,7 @@ window.addEventListener('DOMContentLoaded', () => {
     setClock('timer', deadline);
 
     // Modal
-    let more = document.querySelectorAll('.more, .description-btn'),
+    const more = document.querySelectorAll('.more, .description-btn'),
         overlay = document.querySelector('.overlay'),
         close = document.querySelector('.popup-close');
 
@@ -94,7 +94,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     // Scroll
-    let menu = document.querySelector('#menu');
+    const menu = document.querySelector('#menu');
     // const anchors = [].slice.call(menu.querySelectorAll('a[href*="#"]')),
     //     animationTime = 1000,
     //     framesCount = 100;
