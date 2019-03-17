@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', () => {
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
 
-    function hideTabContent(a) {
+    let hideTabContent = (a) => {
         for (let i = a; i < tabContent.length; i++) {
             tabContent[i].classList.remove('show');
             tabContent[i].classList.add('hide');
@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     hideTabContent(1);
 
-    function showTabContent(b) {
+    let showTabContent = (b) => {
         if (tabContent[b].classList.contains('hide')) {
             tabContent[b].classList.remove('hide');
             tabContent[b].classList.add('show');
@@ -34,9 +34,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // Timer
-    const deadline = '2019-03-18';
+    const deadline = '2019-03-20';
 
-    function getTimeRemaining(endtime) {
+    let getTimeRemaining = (endtime) => {
         const t = Date.parse(endtime) - Date.parse(new Date()),
             seconds = Math.floor((t/1000) % 60),
             minutes = Math.floor((t/1000/60) % 60),
@@ -49,7 +49,7 @@ window.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    function setClock(id, endtime) {
+    let setClock = (id, endtime) => {
         const timer = document.getElementById(id),
             hours = timer.querySelector('.hours'),
             minutes = timer.querySelector('.minutes'),
@@ -58,19 +58,23 @@ window.addEventListener('DOMContentLoaded', () => {
             hours.textContent = minutes.textContent = seconds.textContent = '00';
             return;
         }
-        const timeInterval = setInterval(updateClock, 1000);
 
-        function updateClock() {
+        let set2Char = (num) => {
+            (num <= 9) ? num = '0' + num : {};
+            return num;
+        };
+
+        let updateClock = () => {
             const t = getTimeRemaining(endtime);
-
-            (t.hours > 9) ? hours.textContent = t.hours : hours.textContent = '0' + t.hours;
-            (t.minutes > 9) ? minutes.textContent = t.minutes : minutes.textContent = '0' + t.minutes;
-            (t.seconds > 9) ? seconds.textContent = t.seconds : seconds.textContent = '0' + t.seconds;
-            if (t.total <= 0) {
-                clearInterval(timeInterval);
-            }
-        }
-    }
+            console.log(t);
+            hours.textContent = set2Char(t.hours);
+            minutes.textContent = set2Char(t.minutes);
+            seconds.textContent = set2Char(t.seconds);
+            console.log(hours.textContent, minutes.textContent, seconds.textContent);
+            (t.total <= 0) ? clearInterval(timeInterval) : {};
+        };
+        const timeInterval = setInterval(updateClock, 1000);
+    };
     setClock('timer', deadline);
 
     // Modal
