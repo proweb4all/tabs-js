@@ -124,7 +124,7 @@ window.addEventListener('DOMContentLoaded', () => {
         //request.send(formData);
         request.addEventListener('readystatechange', function(){
             if (request.readyState < 4){
-                statusMessage.style.backgroundImage = 'url(img/loading-1.gif)';
+                statusMessage.style.backgroundImage = 'url(img/loading.gif)';
             } else if (request.readyState == 4 && request.status == 200){
                 statusMessage.style.backgroundImage = '';
                 statusMessage.innerHTML = message.success;
