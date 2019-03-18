@@ -136,9 +136,40 @@ window.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < input.length; i++){
             input[i].value = '';
         }
-    })
+    });
 
+    let inputTel = document.querySelector('.popup-form__input');
+    inputTel.addEventListener('input', mask, false);
+    inputTel.focus();
+    setCursorPosition(3, inputTel);
 
+    function setCursorPosition(pos, e) {
+        e.focus();
+        if (e.setSelectionRange) e.setSelectionRange(pos, pos);
+        else if (e.createTextRange) {
+            let range = e.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', pos);
+            range.moveStart('character', pos);
+            range.select();
+        };
+    };
+    
+    function mask(e) {
+        //console.log('mask',e);
+        var matrix = this.placeholder,
+            i = 0,
+            def = matrix.replace(/\D/g, ''),
+            val = this.value.replace(/\D/g, '');
+        def.length >= val.length && (val = def);
+        matrix = matrix.replace(/[_\d]/g, function(a) {
+            return (val.charAt(i++) || '_');
+        });
+        this.value = matrix;
+        i = matrix.lastIndexOf(val.substr(-1));
+        (i < matrix.length && matrix != this.placeholder) ? i++ : i = matrix.indexOf('_');
+        setCursorPosition(i, this);
+    };
 
 
 
