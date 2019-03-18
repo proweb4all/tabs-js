@@ -105,9 +105,9 @@ window.addEventListener('DOMContentLoaded', () => {
         input = form.getElementsByTagName('input'),
         statusMessage = document.createElement('div');
         statusMessage.classList.add('status');
+        form.appendChild(statusMessage);
     form.addEventListener('submit', function(event){
         event.preventDefault();
-        form.appendChild(statusMessage);
         let request = new XMLHttpRequest();
         request.open('POST', 'server.php');
 //        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');

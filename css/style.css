@@ -1,5 +1,7 @@
 .status{
   height: 50px;
+  text-align: center;
+  line-height: 50px;  
   background: transparent no-repeat center center /contain;
 }
 .fade {
@@ -656,7 +658,7 @@ header ul li:before {
 .overlay .popup-form {
   background: url(../img/modal.jpg) center no-repeat;
   background-size: cover;
-  padding: 35px 88px 50px 88px;
+  padding: 35px 88px;
   color: #fff;
 }
 .overlay .popup-form-header {
