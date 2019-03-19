@@ -97,7 +97,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Form
     let message = {
-        loading: 'Загрузка...',
+        //loading: 'Загрузка...',
         success: 'Спасибо! Скоро мы с вами свяжемся.',
         failure: 'Что-то пошло не так...'
     };
@@ -105,39 +105,64 @@ window.addEventListener('DOMContentLoaded', () => {
         input = form.getElementsByTagName('input'),
         statusMessage = document.createElement('div');
         statusMessage.classList.add('status');
-        form.appendChild(statusMessage);
-    form.addEventListener('submit', function(event){
-        event.preventDefault();
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php');
-//        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-        let formData = new FormData(form);
-        //console.log('formData', formData);
-        let obj = {};
-        formData.forEach(function(value, key){
-            obj[key] = value;
-        });
-        console.log('obj', obj);
-        let json = JSON.stringify(obj);
-        request.send(json);
-        //request.send(formData);
-        request.addEventListener('readystatechange', function(){
-            if (request.readyState < 4){
-                statusMessage.style.backgroundImage = 'url(img/loading.gif)';
-            } else if (request.readyState == 4 && request.status == 200){
-                statusMessage.style.backgroundImage = '';
-                statusMessage.innerHTML = message.success;
-            } else {
-                statusMessage.style.backgroundImage = '';
-                statusMessage.innerHTML = message.failure;
-            }
-        });
-        for (let i = 0; i < input.length; i++){
-            input[i].value = '';
-        }
-    });
+    function sendForm(elem) {
+        elem.addEventListener('submit', function(event){
+            event.preventDefault();
+            elem.appendChild(statusMessage);
+            let formData = new FormData(form);
+            //console.log('formData', formData);
+            let obj = {};
+            formData.forEach(function(value, key){
+                obj[key] = value;
+            });
+            console.log('obj', obj);
+            let json = JSON.stringify(obj);
 
+            function postData(data){
+                return new Promise(function(resolve, reject){
+                    let request = new XMLHttpRequest();
+                    request.open('POST', 'server.php');
+            //        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+                    request.addEventListener('readystatechange', function(){
+                        if (request.readyState < 4){
+                            resolve()
+                        } else if (request.readyState === 4){
+                            if (request.status == 200 && request.status < 300){
+                                resolve();
+                            } else {
+                                reject()
+                            }
+                        }
+                    });
+                    request.send(json);
+                    //request.send(formData);
+                })
+            }
+            function clearInput(){
+                for (let i = 0; i < input.length; i++){
+                    input[i].value = '';
+                }
+            }
+            postData(formData)
+                .then(() => {
+                    statusMessage.style.backgroundImage = 'url(img/loading.gif)';
+                    statusMessage.innerHTML = '';
+                })
+                .then(() => {
+                    statusMessage.style.backgroundImage = '';
+                    statusMessage.innerHTML = message.success;
+                })
+                .catch(() => {
+                    statusMessage.style.backgroundImage = '';
+                    statusMessage.innerHTML = message.failure;
+                })
+                .then(clearInput)
+        });
+    }
+    sendForm(form);
+
+    // Input telephone
     let inputTel = document.querySelector('.popup-form__input');
     inputTel.addEventListener('input', mask, false);
     inputTel.focus();
