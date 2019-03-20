@@ -102,14 +102,14 @@ window.addEventListener('DOMContentLoaded', () => {
         failure: 'Что-то пошло не так...'
     };
     let form = document.querySelector('.main-form'),
-        input = form.getElementsByTagName('input'),
         statusMessage = document.createElement('div');
         statusMessage.classList.add('status');
     function sendForm(elem) {
         elem.addEventListener('submit', function(event){
             event.preventDefault();
             elem.appendChild(statusMessage);
-            let formData = new FormData(form);
+            let input = elem.getElementsByTagName('input'),
+                formData = new FormData(form);
             //console.log('formData', formData);
             let obj = {};
             formData.forEach(function(value, key){
@@ -160,17 +160,65 @@ window.addEventListener('DOMContentLoaded', () => {
                 .then(clearInput)
         });
     }
+    // попап-формы
     sendForm(form);
+    // Нижняя форма
+    let form1 = document.querySelector('#form');
+    statusMessage = document.createElement('div');
+    statusMessage.classList.add('status');
+    sendForm(form1);
 
     // Input telephone
-    let inputTel = document.querySelector('.popup-form__input');
-    inputTel.addEventListener('focus', _ => {
-        if(!/^\+\d*$/.test(inputTel.value)) inputTel.value = '+';
-    });
-    inputTel.addEventListener('keypress', e => {
-        if(!/\d/.test(e.key)) e.preventDefault();
+    let inputTel = document.querySelectorAll('.popup-form__input, .form__input');
+    inputTel.forEach(function(elem){
+        elem.addEventListener('focus', () => {if(!/^\+\d*$/.test(elem.value)) elem.value = '+';});
+        elem.addEventListener('keypress', e => {if(!/\d/.test(e.key)) e.preventDefault();});
     });
     
+    // Slider
+    let slideIndex = 1,
+        slides = document.querySelectorAll('.slider-item'),
+        prev = document.querySelector('.prev'),
+        next = document.querySelector('.next'),
+        dotsWrap = document.querySelector('.slider-dots'),
+        dots = document.querySelectorAll('.dot');
+    showSlides(slideIndex);
+    function showSlides(n){
+        if (n > slides.length) slideIndex = 1;
+        if (n < 1) slideIndex = slides.length;
+        slides.forEach((item) => item.style.display = 'none');
+        dots.forEach((item) => item.classList.remove('dot-active'));
+        slides[slideIndex - 1].style.display = 'block';
+        dots[slideIndex - 1].classList.add('dot-active');
+    }
+    function plusSlides(n) {showSlides(slideIndex += n)}
+    function currentSlide(n) {showSlides(slideIndex = n)}
+    prev.addEventListener('click', () => plusSlides(-1));
+    next.addEventListener('click', () => plusSlides(1));
+    dotsWrap.addEventListener('click', (e) => {
+        for (let i = 1; i < dots.length + 1; i++) {
+            if (e.target.classList.contains('dot') && e.target == dots[i-1]) currentSlide(i);
+        }
+    });
+
+    // Calc
+    let inputsCalc = document.querySelectorAll('.counter-block-input, #select'),
+        inputCalc = document.querySelectorAll('.counter-block-input'),
+        totalValue = document.querySelector('#total');
+        totalValue.innerHTML = 0;
+        inputsCalc.forEach((elem) => {
+            elem.addEventListener('change', () => {
+                totalValue.innerHTML = +inputsCalc[0].value * +inputsCalc[1].value * +inputsCalc[2].options[inputsCalc[2].selectedIndex].value * 4000;
+            })
+        });
+        for (let elem of inputCalc){
+            elem.addEventListener('keyup', function(){
+                this.value = this.value.replace (/[^0-9]/g, '')
+            });
+        };
+
+
+
     // inputTel.addEventListener('input', mask, false);
     // inputTel.focus();
     // setCursorPosition(3, inputTel);
@@ -206,25 +254,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Scroll
     const menu = document.querySelector('#menu');
-    // const anchors = [].slice.call(menu.querySelectorAll('a[href*="#"]')),
-    //     animationTime = 1000,
-    //     framesCount = 100;
-
     const anc = menu.querySelectorAll('a[href*="#"]');
-    //console.log(anc);
-
     for (let anchor of anc) {
-        // console.log(anchor)
         anchor.addEventListener('click', (e) => {
             e.preventDefault();
             const blockID = anchor.getAttribute('href');
-            //console.log(document.querySelector('' + blockID), document.querySelector('' + blockID).scrollTop);
             document.querySelector('' + blockID).scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
         });
     }
+    // const anchors = [].slice.call(menu.querySelectorAll('a[href*="#"]')),
+    //     animationTime = 1000,
+    //     framesCount = 100;
+
 
     // let linkNav = menu.querySelectorAll('[href^="#"]'), //выбираем все ссылки к якорю на странице
     // V = .3;  // скорость, может иметь дробное значение через точку (чем меньше значение - тем больше скорость)
