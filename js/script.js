@@ -206,16 +206,20 @@ window.addEventListener('DOMContentLoaded', () => {
         inputCalc = document.querySelectorAll('.counter-block-input'),
         totalValue = document.querySelector('#total');
         totalValue.innerHTML = 0;
-        inputsCalc.forEach((elem) => {
-            elem.addEventListener('change', () => {
-                totalValue.innerHTML = +inputsCalc[0].value * +inputsCalc[1].value * +inputsCalc[2].options[inputsCalc[2].selectedIndex].value * 4000;
-            })
+    inputsCalc.forEach((elem) => {
+        elem.addEventListener('input', () => {
+            let res = +inputsCalc[0].value * +inputsCalc[1].value * +inputsCalc[2].options[inputsCalc[2].selectedIndex].value * 4000;
+            (isNaN(res)) ? totalValue.innerHTML = 0 : totalValue.innerHTML = res;
+            console.log('res', res, typeof(res));
+        })
+    });
+    inputCalc.forEach((elem) => {
+        elem.addEventListener('keyup', function(e){
+            //this.value = parseInt(Number(this.value).toFixed());
+            this.value = this.value.replace(/[^0-9]/g, '')
+            console.log(this.value, typeof(this.value));
         });
-        for (let elem of inputCalc){
-            elem.addEventListener('keyup', function(){
-                this.value = this.value.replace (/[^0-9]/g, '')
-            });
-        };
+    });
 
 
 
