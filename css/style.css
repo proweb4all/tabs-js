@@ -6,6 +6,34 @@
   line-height: 50px;  
   background: transparent no-repeat center center /contain;
 }
+.scale {
+  -webkit-animation-name: scale;
+          animation-name: scale;
+  -webkit-animation-duration: 1.5s;
+          animation-duration: 1.5s;
+  -webkit-animation-name: scale;
+  -webkit-animation-duration: 1.5s;
+}
+@-webkit-keyframes scale {
+  from {
+    transform: scale(0.5);
+    opacity: 0.1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes scale {
+  from {
+    transform: scale(0.5);
+    opacity: 0.1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 .fade {
   -webkit-animation-name: fade;
           animation-name: fade;

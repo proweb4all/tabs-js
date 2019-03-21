@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // Timer
-    const deadline = '2019-03-20';
+    const deadline = '2019-03-25';
 
     let getTimeRemaining = (endtime) => {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -209,18 +209,37 @@ window.addEventListener('DOMContentLoaded', () => {
     inputsCalc.forEach((elem) => {
         elem.addEventListener('input', () => {
             let res = +inputsCalc[0].value * +inputsCalc[1].value * +inputsCalc[2].options[inputsCalc[2].selectedIndex].value * 4000;
-            (isNaN(res)) ? totalValue.innerHTML = 0 : totalValue.innerHTML = res;
+            animNum(totalValue, res, 50, 1000);
+            //(isNaN(res)) ? totalValue.innerHTML = 0 : totalValue.innerHTML = res;
             console.log('res', res, typeof(res));
         })
     });
     inputCalc.forEach((elem) => {
-        elem.addEventListener('keyup', function(e){
-            //this.value = parseInt(Number(this.value).toFixed());
+        elem.addEventListener('input', function(e){ //keyup
             this.value = this.value.replace(/[^0-9]/g, '')
+            let res = +inputsCalc[0].value * +inputsCalc[1].value * +inputsCalc[2].options[inputsCalc[2].selectedIndex].value * 4000;
+            animNum(totalValue, res, 50, 1000);
             console.log(this.value, typeof(this.value));
         });
     });
 
+    // Анимация числа
+    function animNum(elem, n, f, t){
+        let num = n || 0,
+            fps = f || 10, 
+            time = t || 1000, 
+            steps = time / (1000 / fps), 
+            cNum = 0,
+            d0 = num / steps;
+        let timer = setInterval(function(){
+            cNum += d0;
+            elem.innerHTML = cNum;
+            steps--;
+            if(steps <= 0){
+                clearInterval(timer);
+            }
+        }, (1000 / fps));
+    }
 
 
     // inputTel.addEventListener('input', mask, false);
