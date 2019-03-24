@@ -147,15 +147,15 @@ window.addEventListener('DOMContentLoaded', () => {
             postData(formData)
                 .then(() => {
                     statusMessage.style.backgroundImage = 'url(img/loading.gif)';
-                    statusMessage.innerHTML = '';
+                    statusMessage.textContent = '';
                 })
                 .then(() => {
                     statusMessage.style.backgroundImage = '';
-                    statusMessage.innerHTML = message.success;
+                    statusMessage.textContent = message.success;
                 })
                 .catch(() => {
                     statusMessage.style.backgroundImage = '';
-                    statusMessage.innerHTML = message.failure;
+                    statusMessage.textContent = message.failure;
                 })
                 .then(clearInput)
         });
@@ -205,13 +205,12 @@ window.addEventListener('DOMContentLoaded', () => {
     let inputsCalc = document.querySelectorAll('.counter-block-input, #select'),
         inputCalc = document.querySelectorAll('.counter-block-input'),
         totalValue = document.querySelector('#total');
-        totalValue.innerHTML = 0;
+        totalValue.textContent = 0;
     inputsCalc.forEach((elem) => {
         elem.addEventListener('input', () => {
             let res = Math.round(+inputsCalc[0].value * +inputsCalc[1].value * +inputsCalc[2].options[inputsCalc[2].selectedIndex].value * 4000);
             animNum(totalValue, res, 50, 1000);
-            //(isNaN(res)) ? totalValue.innerHTML = 0 : totalValue.innerHTML = res;
-            console.log('res', res, typeof(res));
+            //console.log('res', res, typeof(res));
         })
     });
     inputCalc.forEach((elem) => {
@@ -219,7 +218,7 @@ window.addEventListener('DOMContentLoaded', () => {
             this.value = this.value.replace(/[^0-9]/g, '')
             let res = Math.round(+inputsCalc[0].value * +inputsCalc[1].value * +inputsCalc[2].options[inputsCalc[2].selectedIndex].value * 4000);
             animNum(totalValue, res, 50, 1000);
-            console.log(this.value, typeof(this.value));
+            //console.log(this.value, typeof(this.value));
         });
     });
 
@@ -233,7 +232,7 @@ window.addEventListener('DOMContentLoaded', () => {
             d0 = num / steps;
         let timer = setInterval(function(){
             cNum += d0;
-            elem.innerHTML = cNum;
+            elem.textContent = cNum;
             steps--;
             if(steps <= 0){
                 clearInterval(timer);
